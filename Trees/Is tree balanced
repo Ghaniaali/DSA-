@@ -1,0 +1,71 @@
+#include<iostream>
+#include<cmath>  // for abs()
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d) {
+        data = d;
+        left = right = nullptr;
+    }
+};
+
+// Function to compute the height of a binary tree
+int height(node* root) {
+    if (!root) {
+        return 0;  // base case
+    }
+    return 1 + max(height(root->left), height(root->right));
+}
+
+// Function to check if the binary tree is height-balanced
+bool isBalanced(node* root) {
+    if (!root) {
+        return true;  // empty tree is balanced
+    }
+
+    int Lh = height(root->left);
+    int Rh = height(root->right);
+
+    return abs(Lh - Rh) <= 1 &&
+           isBalanced(root->left) &&
+           isBalanced(root->right);
+}
+
+// Example: insert node (you can reuse from earlier)
+node* Insert(node* root, int d) {
+    if (root == nullptr) {
+        return new node(d);
+    }
+
+    if (d < root->data) {
+        root->left = Insert(root->left, d);
+    } else if (d > root->data) {
+        root->right = Insert(root->right, d);
+    }
+
+    return root;
+}
+
+// Driver code
+int main() {
+    node* root = nullptr;
+    root = Insert(root, 30);
+    root = Insert(root, 20);
+    root = Insert(root, 40);
+    root = Insert(root, 10);
+    root = Insert(root, 25);
+
+    cout << "Is the tree balanced? ";
+    if (isBalanced(root)) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
+    }
+
+    return 0;
+}
